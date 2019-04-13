@@ -10,7 +10,7 @@
   ```
 
 * 而let和const则是块级作用域 只在最近的一对花括号里存在{}
-而通过let申明的变量可以多次被改变 而const申明的变量在同一个块级作用域里一旦被申明则无法改变
+而通过let申明的变量可以多次被改变 而const申明的变量在同一个块级作用域里一旦被申明则无法改变
 
 2. 箭头函数
 
@@ -51,8 +51,14 @@
 
 4. 模板字符串
 
-* 用法``${abc}def``abc是变量名称
-* 可以在最前面加一个function
+* 用法如下
+
+  ```javascript
+  `${var}string1`// 相当于普通js中 var + 'string1'
+  ```
+  
+* 也可以在最前面加一个function
+  这样就可以在字符串输出之前先执行这个函数 用法如下
 
   ```javascript
   function1`${123}abc`
@@ -61,8 +67,8 @@
   }
   ```
 
-* **重要应用场景**
-可以使用DOMPurify进行xss攻击预防 在``前面加入sanitize函数，定义sanitize函数
+   **重要应用场景**
+  可以使用DOMPurify进行xss攻击预防 在``前面加入sanitize函数，定义sanitize函数
 
   ```javascript
   function sanitize(strings, ...values) {
@@ -122,4 +128,29 @@
   Array.from(nums)
   ```
 
+  **主要场景**
+  将类数组或者可迭代对象转化为真正的数组
+
+  ```javascript
+  <ul>
+    <li>Go to store</li>
+    <li>Watch TV</li>
+    <li>Go shopping</li>
+  </ul>
+  // 对上面这段html代码 要想获取所有li中的文本内容
+  const todos = document.querySelectorALL('li');
+  // 直接使用todos.map(todo => todo.textConent)会报错
+  // 因为todos是一个nodelist类数组 并不是真正的数组
+  // 它的原型链上并没有挂载上map方法 这个时候就需要.from()方法吧他转化为数组
+  const todosArr = Array.from(todos);
+  const names = todosArr.map(todo => todo.textContent);// 这样就能正确获取到names了
+  // 或者可以简化为
+  cost names = Array.from(todos, todo => todo.textContent);
+  ```
+
+  也可以将函数中的arguments转换为数组
 * .of()方法
+主要弥补了Array中构造方法中的不足
+如果使用`new Array(1)`会生成一个长度为1，内容为undefined的数组 ['undefined']
+但是使用`new Array（1,2,3)`则会生成一个内容为[1,2,3]的数组
+为了保证一致性 需要使用`new Array.of(1)` 这样就会生成一个为[1]的数组
