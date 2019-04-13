@@ -10,11 +10,11 @@
   ```
 
 * 而let和const则是块级作用域 只在最近的一对花括号里存在{}
-而通过let申明的变量可以多次被改变 而const申明的变量在同一个块级作用域里一旦被申明则无法改变
+而通过let申明的变量可以多次被改变 而const申明的变量在同一个块级作用域里一旦被申明则无法改变
 
 2. 箭头函数
 
-* 使用箭头函数的时候，函数内部的this指向不用再通过如下语句直接修改this的指向
+* 使用箭头函数的时候，函数内部的this指向不用再通过如下语句直接修改this的指向
 `let self = this;` 然后在函数体中使用self.attr
 直接用箭头函数的函数体中使用this.attr即可
 * 函数参数默认值 直接在括号之后(a=1, b= 2)即可 要想在调用函数的使用默认值 直接 `function(undefined,2)`
@@ -42,9 +42,9 @@
 赋值给test一个数组 [a,,,b]隔开赋值
 * 解构赋值可以重命名 并且赋予默认值
 
-```javasciprt
-const { father: f, mother: m, brother: b, sister: 'have no sister' } = zz.family
-```
+  ```javascript
+  const { father: f, mother: m, brother: b, sister: 'have no sister' } = zz.family
+  ```
 
 * 对象值交换可以直接使用数组解构
 `[a, b] = [b, a]b`
@@ -54,21 +54,21 @@ const { father: f, mother: m, brother: b, sister: 'have no sister' } = zz.famil
 * 用法``${abc}def``abc是变量名称
 * 可以在最前面加一个function
 
-```javascript
-function1`${123}abc`
-function function1 () {
-  // 123
-}
-```
+  ```javascript
+  function1`${123}abc`
+  function function1 () {
+    // 123
+  }
+  ```
 
 * **重要应用场景**
 可以使用DOMPurify进行xss攻击预防 在``前面加入sanitize函数，定义sanitize函数
 
-```javascript
-function sanitize(strings, ...values) {
-  const dirty = strings.reduce((prev,curr,i) => `${prev}${curr}${values[i] || ''}`, '');
-}
-```
+  ```javascript
+  function sanitize(strings, ...values) {
+    const dirty = strings.reduce((prev,curr,i) => `${prev}${curr}${values[i] || ''}`, '');
+  }
+  ```
 
 5. string 类提供的四种新方法
 
@@ -81,3 +81,45 @@ function sanitize(strings, ...values) {
 使用方法与startsWith大体相同
 * .includes() 查看是否包含子串
 * .repeat() 查看字符串重复
+
+6. ES6for循环改进
+
+* 直接在数组中进行forEach循环 但是这样循环中无法break也无法continue
+`Array.forEach(va => {console.log(val)})`
+
+* for in 类型的循环 正常循环，但是如果给array上挂载新的属性或者是原型链上加载新的方法，那么for in 类型的循环也会同样被循环展示出来
+* for of 类型的循环 不会发生在 for in 类型循环和forEach中出现的问题
+
+  ```javascript
+  for(let val of array){
+    if(val === '123'){
+      break;
+    } // array = ['1','12','123']
+    console.log(val);
+  } // 打印结果为1，12
+  ```
+
+* js数组中有原型方法iterator迭代器 在Array.intries()中 如果使用for of 就是自动在调用这个iterator迭代器 使用这个方法可以用解构的方法得到数组的index和value
+
+  ```javascript
+  const fruits = ['Apple','Banana','Orange','Mango'];
+
+  for (let [index, fruit] of fruits.entries()){
+    console.log(`${fruit} ranks ${index + 1} in my favourite fruit list`)
+  } // 输出Apple rank 1 in my favourite fruits...
+  ```
+
+  **for of 不支持对象！！！**
+  for of 循环还可以用于字符串 以及遍历函数中的arguments对象
+
+7. ES6数组新加方法
+
+* .from()方法
+  使用该方法需要通过如下方法调用 因为.from()方法不在数组的原型链上
+
+  ```javascript
+  const nums = [1,2,3]
+  Array.from(nums)
+  ```
+
+* .of()方法
