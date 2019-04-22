@@ -189,3 +189,66 @@
 * 可以与array.from()起到相同的作用，即将类数组对象转化为数组
 
 * 可以直接添加对象中的数组属性[...obj.array]
+
+10. 字面量拓展
+
+* name: name等同于直接简写为name
+
+11. Promise
+
+* axios.get('url')直接返回promise对象
+* 使用.then() 相当于监听事件 promise对象事件成功的话就执行
+* 使用.catch()监听错误信息
+
+  ```javascript
+  const p = new Promise((resolve, reject) => {
+    resolve('3zz is good');
+  })// 成功返回resolve 失败返回reject
+  p.then(data => { console.log(data) });
+  ```
+
+* 使用.all()方法监听所有promise对象
+
+  ```javascript
+  const p1 = new Promise((resolve, reject) => {
+    resolve(['1','2','3'])
+  })
+  const p2 = new Promise((resolve, reject) => {
+    resolve({name: '3zz'})
+  })
+  Promise
+    .all(p1,p2)
+    .then(responses => {
+      const [pp1,pp2] = responses;
+      console.log(pp1);// ['1','2','3']
+      console.log(pp2);// {name: '3zz'}
+    })
+  ```
+
+  只要有一个reject 那么.all()方法就不会执行
+
+* .race()方法 返回结果由第一个Promise对象决定
+   resolve就then
+   reject就catch
+   和.all()方法不同
+
+12. Symbol
+
+* symbol标识符是js里第七种数据类型 具有唯一性
+* 为了避免冲突
+* 无法被遍历获取属性名
+* 使用Object.getOwnPropertySymbols('3zz')获取
+
+13. ES6 Module
+
+* 可以按照以下方式导出
+  ```javascript
+  export const apikey = '123'
+  export function greet(name) {
+    console.log(`hello ${name}`)
+  }
+  export { apikey as key, greet }// import {key as apikey} from xxx.js
+  ```
+
+* 对于export default形式导出的 使用import xxx from './xxx.js'
+* 对于export const / function 形式导出的 使用import { xxx, yyy } from './xxx.js'

@@ -1,0 +1,25 @@
+{
+  "name": "es6-learning",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Zu3zz/es6-learning.git",
+  "author": "Zu3zz <zthzththth@163.com>",
+  "license": "MIT",
+  "scripts": {
+    "server": "browser-sync start --directory --server --files '*.html, *.js, *.css'",
+    "babel": "babel app.js --watch --out-file app-compiled.js"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "browser-sync": "^2.26.3"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/react"
+    ]
+  }
+}
