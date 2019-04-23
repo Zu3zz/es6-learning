@@ -252,3 +252,87 @@
 
 * 对于export default形式导出的 使用import xxx from './xxx.js'
 * 对于export const / function 形式导出的 使用import { xxx, yyy } from './xxx.js'
+
+14. ES6的类 Class
+
+* 作为函数 可以变量提升，但是类不可以 直接在类的定义之前调用会报错
+
+  ```javascript
+  class User {
+    // constructor 是构造函数
+    constructor(name, email) {
+      this.name = name;
+      this.email = email;
+    }
+    info() {
+      console.log(`i'm info`)
+    }
+    static description() {
+      console.log(`i'm description`)
+    } 
+  }
+  ```
+
+* class中定义的static静态方法无法在类生成的实例中调用，但是可以直接在User中调用
+* 使用set get 来对属性进行定义和获取
+* ES6中类的继承
+
+  ```javascript
+  class myArray extends Array{
+    super();
+  }
+  ```
+
+15. Generator
+
+* 可以开始暂停 并且传入另外的参数
+* 如何定义一个generator
+
+  ```javascript
+  function* listColors() {
+    yield 'red';
+    yield 'green';
+    yield 'bule';
+  }
+  const colors = listColors();
+  ```
+
+* 返回的是一个迭代器 需要调用.next()方法
+* 可以配合axios Promise的.then()方法实现异步
+
+16. Proxy
+
+* 可以重新定义对象默认的方法
+* 代码如下
+
+  ```javascript
+  const person = { name: '3zz', age: 23 };
+  const personProxy = new Proxy(person, {
+    get (target, key) {
+      return target[key].toUpperCase();
+    }
+    set(target, key, value){
+      if (typeof value === 'string'){
+        target[key] = value.trim()
+      }
+    }
+    // personProxy.love = 'i love hit     '
+    // log: 'i love hit      '
+    // persionProxy.love
+    // log: 'I LOVE HIT'
+  })
+  ```
+
+17. Set和WeakSet
+
+* WeakSet只能含有对象 不能含有字符串和数字
+* WeakSet不能通过for of来循环 没有iterator迭代器
+* WeakSet没有clear方法 但是有自动清理机制
+
+  ```javascript
+  let mary = { name: '12', age: 21 }
+  let tom = { name: '21', age: 23 }
+  const weakPeople = new WeakSet([mary, tom])
+  mary = null
+  console.log(weakPeople) // mary属性过一点时间会被自动删除 但是使用正常数组就会发生内存泄漏
+  ```
